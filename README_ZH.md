@@ -5,15 +5,15 @@
 [![Build Status](https://travis-ci.org/osglworks/java-unit.svg?branch=master)](https://travis-ci.org/osglworks/java-unit)
 [![codecov](https://codecov.io/gh/osglworks/java-unit/branch/master/graph/badge.svg)](https://codecov.io/gh/osglworks/java-unit)
 
-The project provides supporting Java unit tests:
+该项目为 Java 单元测试提供以下支持:
 
-* The `org.osgl.ut.TestBase` class is provided to be extended by user's test class. The class itself extends `org.junit.Assert` with simplified assertion methods
+* 继承自 `org.junit.Assert` 的 `org.osgl.ut.TestBase` 类为用户测试类提供了简单便捷的断言方法
 
-* The project has added the full [hamcrest-2.0.0.0](http://hamcrest.org/) library into the dependency, which provides more [matchers](http://hamcrest.org/JavaHamcrest/javadoc/2.0.0.0/org/hamcrest/Matcher.html) than the junit bundled hamcrest matchers
+* 项目依赖中引入了完全的 [hamcrest-2.0.0.0](http://hamcrest.org/) 库, 提供了和 Junit 内置 hamcrest 库相比更加丰富的 [matchers](http://hamcrest.org/JavaHamcrest/javadoc/2.0.0.0/org/hamcrest/Matcher.html) 类型
 
-## Installation
+## 安装
 
-Add the following dependency into your `pom.xml` file:
+将以下依赖加入到你项目的 `pom.xml` 文件中:
 
 ```xml
 <dependency>
@@ -25,7 +25,7 @@ Add the following dependency into your `pom.xml` file:
 
 ## `TestBase` vs `Assert`
 
-`org.junit.Assert` provides a lot of assertion method to support writting declarative unit tests. `org.osgl.ut.TestBase` inherited from `Assert` and provides simplified names for those assertion methods. More than that, `TestBase` has moved the `String message` parameter from the first position to the end of the parameter list for all APIs that has `message` parameter, and appended with `Object... messageArgs` parameter, to make developer easier to write formatted message, for example
+`org.junit.Assert` 提供了丰富的断言方法方便程序员创建声明型的单元测试. `org.osgl.ut.TestBase` 类从 `Assert` 类继承而来, 提供了简化命名的断言方法集. 另外对于带 `String message` 的断言方法, `TestBase` 将该参数从参数列表前面挪到了参数列表后面, 同时加上了 `Object... messageArgs` 参数, 方便开发者写需要格式化的断言消息, 例如:
 
 ```java
 // Assert style
@@ -35,7 +35,7 @@ assertNotNull(String.format("some message with %s and %s", arg1, arg2), somethin
 notNull(someting, "some message with %s and %s", arg1, arg2);
 ```  
 
-List of `Assert` API and their `TestBase` counter part 
+`Assert` API 和 `TestBase` 相应 API 的对比 
 
 | `org.junit.Assert` | `org.osgl.ut.TestBase` |
 | ------------------ | ----------------------|
@@ -63,7 +63,7 @@ List of `Assert` API and their `TestBase` counter part
 | N/A | `no(actual, matcher)` |
 | N/A | `no(actual, matcher, message, messageArgs)` |
 
-## Sample code
+## 代码示例
 
 ```java
 public class MyClass {
