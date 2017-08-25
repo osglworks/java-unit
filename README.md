@@ -1,5 +1,8 @@
 # OSGL Unit Test
 
+[![APL v2](https://img.shields.io/badge/license-Apache%202-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html) 
+[![Maven Central](https://img.shields.io/maven-central/v/org.osgl/osgl-ut.svg)](http://search.maven.org/#search%7Cga%7C1%7Cosgl-ut)
+
 The project provides supporting Java unit tests:
 
 * The `org.osgl.ut.TestBase` class is provided to be extended by user's test class. The class itself extends `org.junit.Assert` with simplified assertion methods
