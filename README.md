@@ -2,6 +2,7 @@
 
 [![APL v2](https://img.shields.io/badge/license-Apache%202-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html) 
 [![Maven Central](https://img.shields.io/maven-central/v/org.osgl/osgl-ut.svg)](http://search.maven.org/#search%7Cga%7C1%7Cosgl-ut)
+[![Build Status](https://travis-ci.org/osglworks/java-unit.svg?branch=master)](https://travis-ci.org/osglworks/java-unit)
 
 The project provides supporting Java unit tests:
 
