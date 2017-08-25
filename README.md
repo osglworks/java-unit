@@ -10,6 +10,18 @@ The project provides supporting Java unit tests:
 
 * The project has added the full [hamcrest-2.0.0.0](http://hamcrest.org/) library into the dependency, which provides more [matchers](http://hamcrest.org/JavaHamcrest/javadoc/2.0.0.0/org/hamcrest/Matcher.html) for use
 
+## Installation
+
+Add the following dependency into your `pom.xml` file:
+
+```xml
+<dependency>
+    <groupId>org.osgl</groupId>
+    <artifactId>osgl-ut</artifactId>
+    <version>${osgl-ut-version}</version>
+</dependency>
+```
+
 ## `TestBase` vs `Assert`
 
 `org.junit.Assert` provides a lot of assertion method to support writting declarative unit tests. `org.osgl.ut.TestBase` inherited from `Assert` and provides simplified names for those assertion methods. More than that, `TestBase` has moved the `String message` parameter from the first position to the end of the parameter list for all APIs that has `message` parameter, and appended with `Object... messageArgs` parameter, to make developer easier to write formatted message, for example
