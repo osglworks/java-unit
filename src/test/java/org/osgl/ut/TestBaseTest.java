@@ -20,11 +20,9 @@ package org.osgl.ut;
  * #L%
  */
 
-import org.junit.Test;
+import static org.hamcrest.Matchers.*;
 
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.startsWith;
+import org.junit.Test;
 
 /**
  * Test {@link TestBase}
@@ -88,14 +86,29 @@ public class TestBaseTest extends TestBase {
         eq(null, null);
     }
 
+    @Test
+    public void eqWithTwoNullValuesShallPassWithMessage() {
+        eq(null, null, "hi %s", "junit");
+    }
+
     @Test(expected = AssertionError.class)
     public void eqWithOnNullExpectedShallShout() {
         eq("Hi", null);
     }
 
     @Test(expected = AssertionError.class)
+    public void eqWithOnNullExpectedShallShoutWithMessage() {
+        eq("Hi", null, "hi %s", "junit");
+    }
+
+    @Test(expected = AssertionError.class)
     public void eqWithOnNullValueShallShout() {
         eq(null, "Hi");
+    }
+
+    @Test(expected = AssertionError.class)
+    public void eqWithOnNullValueShallShoutWithMessage() {
+        eq(null, "Hi", "hi %s", "junit");
     }
 
     @Test
@@ -216,6 +229,32 @@ public class TestBaseTest extends TestBase {
     }
 
     @Test
+    public void eqWithArrayTypeDiffWithEmptyMessage() {
+        eqWithArrayTypeDiffWithInvalidMessage("");
+    }
+
+    @Test
+    public void eqWithArrayTypeDiffWithBlankMessage() {
+        eqWithArrayTypeDiffWithInvalidMessage(" ");
+    }
+
+    @Test
+    public void eqWithArrayTypeDiffWithNullMessage() {
+        eqWithArrayTypeDiffWithInvalidMessage(null);
+    }
+
+    private void eqWithArrayTypeDiffWithInvalidMessage(String invalidMessage) {
+        int[] a1 = {1};
+        short[] a2 = {1};
+        try {
+            eq(a1, a2, invalidMessage);
+            expectAssertionError();
+        } catch (AssertionError error) {
+            msgShallStartsWith(error, "arrays type differed");
+        }
+    }
+
+    @Test
     public void eqWithEmptyArrayTypeDiff() {
         int[] a1 = {};
         String[] a2 = {};
@@ -244,6 +283,13 @@ public class TestBaseTest extends TestBase {
         double[] a1 = {0.01d, 1.23037d};
         double[] a2 = {0.010001d, 1.23036d};
         eq(a1, a2, 0.0002d);
+    }
+
+    @Test
+    public void eqDoubleArraysWithDeltaWithMessage() {
+        double[] a1 = {0.01d, 1.23037d};
+        double[] a2 = {0.010001d, 1.23036d};
+        eq(a1, a2, 0.0002d, "hi %s", "junit");
     }
 
     @Test(expected = AssertionError.class)
@@ -416,6 +462,11 @@ public class TestBaseTest extends TestBase {
         yes("hi junit", startsWith("hi"));
     }
 
+    @Test
+    public void yesShallPassIfMatcherMatchesWithMessage() {
+        yes(1, is(1), "hi %s", "junit");
+    }
+
     @Test(expected = AssertionError.class)
     public void yesShallShoutIfMatcherNotMatch() {
         yes(1, is(0));
@@ -436,6 +487,11 @@ public class TestBaseTest extends TestBase {
         no(1, is(0));
         no(1, instanceOf(String.class));
         no("hi junit", startsWith("bye "));
+    }
+
+    @Test
+    public void noShallPassIfMatcherNotMatchesWithMessage() {
+        no("hi junit", startsWith("bye "), "hi %s", "junit");
     }
 
     @Test(expected = AssertionError.class)

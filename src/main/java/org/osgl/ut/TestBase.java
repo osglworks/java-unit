@@ -231,7 +231,7 @@ public abstract class TestBase extends Assert {
         if (expectedClass.isArray()) {
             Class<?> actualClass = actual.getClass();
             if (!expectedClass.equals(actualClass)) {
-                if ("".equals(userMessage)) {
+                if (null == message || "".equals(message.trim())) {
                     fail("arrays type differed\nExpected: %s\nActual  : %s",
                             expectedClass.getName(), actualClass.getName());
                 } else {

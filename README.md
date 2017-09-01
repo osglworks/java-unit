@@ -4,12 +4,15 @@
 [![Maven Central](https://img.shields.io/maven-central/v/org.osgl/osgl-ut.svg)](http://search.maven.org/#search%7Cga%7C1%7Cosgl-ut)
 [![Build Status](https://travis-ci.org/osglworks/java-unit.svg?branch=master)](https://travis-ci.org/osglworks/java-unit)
 [![codecov](https://codecov.io/gh/osglworks/java-unit/branch/master/graph/badge.svg)](https://codecov.io/gh/osglworks/java-unit)
+[![Javadocs](http://www.javadoc.io/badge/org.osgl/osgl-ut.svg?color=red)](http://www.javadoc.io/doc/org.osgl/osgl-ut)
 
 The project provides supporting Java unit tests:
 
-* The `org.osgl.ut.TestBase` class is provided to be extended by user's test class. The class itself extends `org.junit.Assert` with simplified assertion methods
+* The `org.osgl.ut.TestBase` class is provided to be extended by user's test class. The class itself extends `org.junit.Assert` with simplified assertion methods.
 
-* The project has added the full [hamcrest-2.0.0.0](http://hamcrest.org/) library into the dependency, which provides more [matchers](http://hamcrest.org/JavaHamcrest/javadoc/2.0.0.0/org/hamcrest/Matcher.html) than the junit bundled hamcrest matchers
+* The project has added the full [hamcrest-2.0.0.0](http://hamcrest.org/) library into the dependency, which provides more [matchers](http://hamcrest.org/JavaHamcrest/javadoc/2.0.0.0/org/hamcrest/Matcher.html) than the junit bundled hamcrest matchers.
+
+* The project has added [mockito-2.9](http://site.mockito.org/) library into the dependency, which provides awesome mocking support.
 
 ## Installation
 
