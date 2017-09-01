@@ -48,7 +48,9 @@ List of `Assert` API and their `TestBase` counter part
 | `assertFalse(message, condition)` | `no(condition, message, messageArgs)` |
 | `fail(message)` | `fail(message, messageArgs)` |
 | `assertEquals(expected, actual)` | `eq(expected, actual)` |
+| `assertNotEquals(unexpected, actual)` | `ne(unexpected, actual)` |
 | `assertEquals(message, expected, actual)` | `eq(expected, actual, message, messageArgs)` |
+| `assertNotEquals(message, unexpected, actual)` | `ne(unexpected, actual, message, messageArgs)` |
 | `assertArrayEquals(expecteds, actuals)` | `eq(expecteds, actuals)` |
 | `assertArrayEquals(message, expecteds, actuals)` | `eq(expecteds, actuals, message, messageArgs)` |
 | `assertEquals(expected, actual, delta)` | `eq(expected, actual, delta)` |

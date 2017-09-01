@@ -1,6 +1,3 @@
-/**
- * Classes support unit tests
- */
 package org.osgl.ut;
 
 /*-
@@ -22,3 +19,26 @@ package org.osgl.ut;
  * limitations under the License.
  * #L%
  */
+
+import org.junit.Test;
+
+public class VersionTest extends TestBase {
+
+    @Test
+    public void itShallLoadVersionFromVersionFile() {
+        notNull(Version.version());
+        ne(Version.UNKNOWN, Version.version());
+    }
+
+    @Test
+    public void itShallLoadBuildNumberFromVersionFile() {
+        notNull(Version.buildNumber());
+        ne(Version.UNKNOWN, Version.buildNumber());
+    }
+
+    @Test
+    public void versionTagTest() {
+        eq(Version.version() + "-" + Version.buildNumber(), Version.versionTag());
+    }
+
+}

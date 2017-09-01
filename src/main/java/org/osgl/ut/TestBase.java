@@ -28,6 +28,9 @@ import org.junit.internal.ArrayComparisonFailure;
 import org.junit.internal.ExactComparisonCriteria;
 import org.junit.internal.InexactComparisonCriteria;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 /**
  * The `TestBase` provides simplified assertion methods.
  */
@@ -208,9 +211,10 @@ public abstract class TestBase extends Assert {
     }
 
     /**
-     * Asserts that two objects are equal. If they are not, an
-     * {@link AssertionError} is thrown with the given message. If
-     * `expected` and `actual` are `null`, they are considered equal.
+     * Asserts that two objects (including arrays) are equal.
+     * If they are not, an {@link AssertionError} is thrown with
+     * the given message. If`expected` and `actual` are `null`,
+     * they are considered equal.
      *
      * @param expected
      *              expected value, could be any object including array
@@ -246,12 +250,47 @@ public abstract class TestBase extends Assert {
     }
 
     /**
-     * Alias of {@link #assertEquals(Object, Object)}.
+     * Asserts that two objects (including arrays) are not equal.
+     * If they are, an {@link AssertionError} is thrown with the
+     * given message. If `unexpected` and `actual` are `null`,
+     * they are considered equal.
+     *
+     * @param unexpected
+     *              unexpected value, could be any object including array
+     * @param actual
+     *              actual value
+     * @param message
+     *              the failure message. `null` Okay
+     * @param messageArgs
+     *              the failure message arguments
+     */
+    public static void ne(Object unexpected, Object actual, String message, Object ... messageArgs) {
+        if (null == unexpected) {
+            notNull(actual, message, messageArgs);
+            return;
+        }
+        Class<?> unexpectedClass = unexpected.getClass();
+        String userMessage = fmt(message, messageArgs);
+        if (unexpectedClass.isArray()) {
+            if (null == actual || !actual.getClass().isArray()) {
+                return;
+            }
+            arrayNotEquals(userMessage, unexpected, actual);
+        } else {
+            assertNotEquals(userMessage, unexpected, actual);
+        }
+    }
+
+    /**
+     * Asserts that two objects (including arrays) are equal.
+     * If they are not, an {@link AssertionError} is thrown with
+     * the given message. If`expected` and `actual` are `null`,
+     * they are considered equal.
      *
      * @param expected
-     *              expected value
+     *              expected value, could be any object including array
      * @param actual
-     *              the value to check against `expected`
+     *              actual value
      */
     public static void eq(Object expected, Object actual) {
         if (null == expected) {
@@ -267,6 +306,33 @@ public abstract class TestBase extends Assert {
             new ExactComparisonCriteria().arrayEquals(null, expected, actual);
         } else {
             assertEquals(null, expected, actual);
+        }
+    }
+
+    /**
+     * Asserts that two objects (including arrays) are not equal.
+     * If they are, an {@link AssertionError} is thrown with the
+     * given message. If `unexpected` and `actual` are `null`,
+     * they are considered equal.
+     *
+     * @param unexpected
+     *              unexpected value, could be any object including array
+     * @param actual
+     *              actual value
+     */
+    public static void ne(Object unexpected, Object actual) {
+        if (null == unexpected) {
+            notNull(actual);
+            return;
+        }
+        Class<?> unexpectedClass = unexpected.getClass();
+        if (unexpectedClass.isArray()) {
+            if (null == actual || !actual.getClass().isArray()) {
+                return;
+            }
+            arrayNotEquals(null, unexpected, actual);
+        } else {
+            assertNotEquals(null, unexpected, actual);
         }
     }
 
@@ -292,6 +358,27 @@ public abstract class TestBase extends Assert {
     }
 
     /**
+     * Asserts that two double arrays are not equal. If they are, an
+     * {@link AssertionError} is thrown with the given message.
+     *
+     * @param unexpecteds
+     *              unexpected double array
+     * @param actuals
+     *              actual double array
+     * @param delta
+     *              the maximum delta between `expected` and `actual`
+     *              for which both numbers are still considered equal.
+     * @param message
+     *              the identifying message for the {@link AssertionError} (`null` okay)
+     * @param messageArgs
+     *              the failure message arguments
+     */
+    public static void ne(double[] unexpecteds, double[] actuals, double delta,
+                          String message, Object ... messageArgs) throws AssertionError {
+        arrayNotEquals(fmt(message, messageArgs), unexpecteds, actuals, delta);
+    }
+
+    /**
      * Alias of {@link #assertArrayEquals(double[], double[], double)}.
      *
      * @param expecteds
@@ -307,6 +394,22 @@ public abstract class TestBase extends Assert {
     }
 
     /**
+     * Asserts that two double arrays are not equal. If they are, an
+     * {@link AssertionError} is thrown.
+     *
+     * @param unexpecteds
+     *              unexpected double array
+     * @param actuals
+     *              actual double array
+     * @param delta
+     *              the maximum delta between `expected` and `actual`
+     *              for which both numbers are still considered equal.
+     */
+    public static void ne(double[] unexpecteds, double[] actuals, double delta) throws AssertionError {
+        arrayNotEquals(null, unexpecteds, actuals, delta);
+    }
+
+    /**
      * Asserts that two float arrays are equal. If they are not, an
      * {@link AssertionError} is thrown with the given message.
      *
@@ -318,7 +421,7 @@ public abstract class TestBase extends Assert {
      *              the maximum delta between `expected` and `actual`
      *              for which both numbers are still considered equal.
      * @param message
-     *              the failure message for the {@link AssertionError} (`null` okay)
+     *              the identifying message for the {@link AssertionError} (`null` okay)
      * @param messageArgs
      *              the failure message arguments
      */
@@ -327,6 +430,26 @@ public abstract class TestBase extends Assert {
         new InexactComparisonCriteria(delta).arrayEquals(fmt(message, messageArgs), expecteds, actuals);
     }
 
+    /**
+     * Asserts that two float arrays are not equal. If they are, an
+     * {@link AssertionError} is thrown with the given message.
+     *
+     * @param unexpecteds
+     *              unexpected double array
+     * @param actuals
+     *              actual double array
+     * @param delta
+     *              the maximum delta between `expected` and `actual`
+     *              for which both numbers are still considered equal.
+     * @param message
+     *              the identifying message for the {@link AssertionError} (`null` okay)
+     * @param messageArgs
+     *              the failure message arguments
+     */
+    public static void ne(float[] unexpecteds, float[] actuals, float delta,
+                          String message, Object ... messageArgs) throws AssertionError {
+        arrayNotEquals(fmt(message, messageArgs), unexpecteds, actuals, delta);
+    }
 
     /**
      * Asserts that two float arrays are equal. If they are not, an
@@ -345,12 +468,28 @@ public abstract class TestBase extends Assert {
     }
 
     /**
+     * Asserts that two float arrays are not equal. If they are, an
+     * {@link AssertionError} is thrown.
+     *
+     * @param unexpecteds
+     *              unexpected double array
+     * @param actuals
+     *              actual double array
+     * @param delta
+     *              the maximum delta between `expected` and `actual`
+     *              for which both numbers are still considered equal.
+     */
+    public static void ne(float[] unexpecteds, float[] actuals, float delta) throws AssertionError {
+        arrayNotEquals(null, unexpecteds, actuals, delta);
+    }
+
+    /**
      * Asserts that two doubles or floats are equal to within a positive delta.
      * If they are not, an {@link AssertionError} is thrown with the given
      * message. If the expected value is infinity then the delta value is
      * ignored. NaNs are considered equal:
      *
-     * `assertEquals(Double.NaN, Double.NaN, *)` passes
+     * `eq(Double.NaN, Double.NaN, *)` passes
      *
      * @param expected
      *              expected value
@@ -360,15 +499,47 @@ public abstract class TestBase extends Assert {
      *              the maximum delta between `expected` and
      *              `actual` for which both numbers are still
      *              considered equal.
-     * @param message the failure message for the {@link AssertionError} (`null` okay)
-     * @param messageArgs the failure message arguments
+     * @param message
+     *              the failure message for the {@link AssertionError} (`null` okay)
+     * @param messageArgs
+     *              the failure message arguments
      */
     public static void eq(double expected, double actual, double delta, String message, Object... messageArgs) {
         assertEquals(fmt(message, messageArgs), expected, actual, delta);
     }
 
     /**
-     * Alias of {@link #assertEquals(double, double, double)}.
+     * Asserts that two doubles or floats are **not** equal to within a positive delta.
+     * If they are, an {@link AssertionError} is thrown with the given message.
+     * If the expected value is infinity then the delta value is ignored.
+     * NaNs are considered equal:
+     *
+     * `ne(Double.NaN, Double.NaN, *)` fails
+     *
+     * @param unexpected
+     *              expected value
+     * @param actual
+     *              the value to check against `expected`
+     * @param delta
+     *              the maximum delta between `expected` and
+     *              `actual` for which both numbers are still
+     *              considered equal.
+     * @param message
+     *              the failure message for the {@link AssertionError} (`null` okay)
+     * @param messageArgs
+     *              the failure message arguments
+     */
+    public static void ne(double unexpected, double actual, double delta, String message, Object... messageArgs) {
+        assertNotEquals(fmt(message, messageArgs), unexpected, actual, delta);
+    }
+
+    /**
+     * Asserts that two doubles or floats are equal to within a positive delta.
+     * If they are not, an {@link AssertionError} is thrown with the given
+     * message. If the expected value is infinity then the delta value is
+     * ignored. NaNs are considered equal:
+     *
+     * `eq(Double.NaN, Double.NaN, *)` passes
      *
      * @param expected
      *              expected value
@@ -381,6 +552,27 @@ public abstract class TestBase extends Assert {
      */
     public static void eq(double expected, double actual, double delta) {
         assertEquals(null, expected, actual, delta);
+    }
+
+    /**
+     * Asserts that two doubles or floats are **not** equal to within a positive delta.
+     * If they are, an {@link AssertionError} is thrown with the given message.
+     * If the expected value is infinity then the delta value is ignored.
+     * NaNs are considered equal:
+     *
+     * `ne(Double.NaN, Double.NaN, *)` fails
+     *
+     * @param unexpected
+     *              expected value
+     * @param actual
+     *              the value to check against `expected`
+     * @param delta
+     *              the maximum delta between `expected` and
+     *              `actual` for which both numbers are still
+     *              considered equal.
+     */
+    public static void ne(double unexpected, double actual, double delta) {
+        assertNotEquals(null, unexpected, actual, delta);
     }
 
     /**
@@ -505,4 +697,45 @@ public abstract class TestBase extends Assert {
         return String.format(message, messageArgs);
     }
 
+    private static void arrayNotEquals(String message, Object expecteds, Object actuals)
+            throws ArrayComparisonFailure {
+        if (expecteds == actuals
+                || Arrays.deepEquals(new Object[] {expecteds}, new Object[] {actuals})) {
+            // The reflection-based loop below is potentially very slow, especially for primitive
+            // arrays. The deepEquals check allows us to circumvent it in the usual case where
+            // the arrays are exactly equal.
+            fail(message);
+        }
+    }
+
+    private static void arrayNotEquals(String message, Object expecteds, Object actuals, Object delta) {
+        if (expecteds == actuals
+                || Arrays.deepEquals(new Object[] {expecteds}, new Object[] {actuals})) {
+            // The reflection-based loop below is potentially very slow, especially for primitive
+            // arrays. The deepEquals check allows us to circumvent it in the usual case where
+            // the arrays are exactly equal.
+            fail(message);
+        }
+        int expectedLen = Array.getLength(expecteds);
+        int actualLen = Array.getLength(actuals);
+        if (expectedLen != actualLen) {
+            return;
+        }
+        for (int i = 0; i < expectedLen; ++i) {
+            if (delta instanceof Double) {
+                Double expectedElement = (Double)Array.get(expecteds, i);
+                Double actualElement = (Double) Array.get(actuals, i);
+                if ((Math.abs(expectedElement - actualElement) > (Double) delta)) {
+                    return;
+                }
+            } else {
+                Float expectedElement = (Float)Array.get(expecteds, i);
+                Float actualElement = (Float) Array.get(actuals, i);
+                if ((Math.abs(expectedElement - actualElement) > (Float) delta)) {
+                    return;
+                }
+            }
+        }
+        fail(message);
+    }
 }

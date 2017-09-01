@@ -84,11 +84,22 @@ public class TestBaseTest extends TestBase {
     @Test
     public void eqWithTwoNullValuesShallPass() {
         eq(null, null);
+        eq(null, null, "hi %s", "junit");
+    }
+
+    @Test(expected = AssertionError.class)
+    public void neWithTwoNullValuesShallShout() {
+        ne(null, null);
     }
 
     @Test
-    public void eqWithTwoNullValuesShallPassWithMessage() {
-        eq(null, null, "hi %s", "junit");
+    public void neWithTwoNullValuesShallShoutWithMessage() {
+        try {
+            ne(null, null, "hi %s", "junit");
+            expectAssertionError();
+        } catch (AssertionError error) {
+            assertEquals("hi junit", error.getMessage());
+        }
     }
 
     @Test(expected = AssertionError.class)
@@ -96,14 +107,31 @@ public class TestBaseTest extends TestBase {
         eq("Hi", null);
     }
 
-    @Test(expected = AssertionError.class)
+    @Test
+    public void neWithOnNullExpectedShallPass() {
+        ne("Hi", null);
+        ne("Hi", null, "hi %s", "junit");
+    }
+
+    @Test
     public void eqWithOnNullExpectedShallShoutWithMessage() {
-        eq("Hi", null, "hi %s", "junit");
+        try {
+            eq("Hi", null, "hi %s", "junit");
+            expectAssertionError();
+        } catch (AssertionError error) {
+            msgShallStartsWith(error, "hi junit");
+        }
     }
 
     @Test(expected = AssertionError.class)
     public void eqWithOnNullValueShallShout() {
         eq(null, "Hi");
+    }
+
+    @Test
+    public void neWithOnNullValueShallPass() {
+        ne(null, "Hi");
+        ne(null, "Hi", "hi %s", "junit");
     }
 
     @Test(expected = AssertionError.class)
@@ -124,8 +152,43 @@ public class TestBaseTest extends TestBase {
     }
 
     @Test(expected = AssertionError.class)
+    public void neWithEqualObjectsShallShout() {
+        Foo foo1 = new Foo("hi", 5);
+        Foo foo2 = new Foo("hi", 5);
+        ne(foo1, foo2);
+    }
+
+    @Test
+    public void neWithEqualObjectsShallShoutWithMessage() {
+        Foo foo1 = new Foo("hi", 5);
+        Foo foo2 = new Foo("hi", 5);
+        try {
+            ne(foo1, foo2, "hi %s", "junit");
+            expectAssertionError();
+        } catch (AssertionError error) {
+            msgShallStartsWith(error, "hi junit");
+        }
+    }
+
+    @Test(expected = AssertionError.class)
     public void eqWithNotEqualStringsShallShout() {
         eq("Hi", "hi");
+    }
+
+    @Test
+    public void eqWithNotEqualStringsShallShoutWithMessage() {
+        try {
+            eq("Hi", "hi", "hi %s", "junit");
+            expectAssertionError();
+        } catch (AssertionError error) {
+            msgShallStartsWith(error, "hi junit");
+        }
+    }
+
+    @Test
+    public void neWithNotEqualStringsShallPass() {
+        ne("Hi", "hi");
+        ne("Hi", "hi", "hi %s", "junit");
     }
 
     @Test(expected = AssertionError.class)
@@ -156,6 +219,25 @@ public class TestBaseTest extends TestBase {
         eq(a1, a2, "message");
     }
 
+    @Test(expected = AssertionError.class)
+    public void neWithEqualArrayShallShout() {
+        int[] a1 = {1, 2};
+        int[] a2 = {1, 2};
+        ne(a1, a2);
+    }
+
+    @Test
+    public void neWithEqualArrayShallShoutWithMessage() {
+        int[] a1 = {1, 2};
+        int[] a2 = {1, 2};
+        try {
+            ne(a1, a2, "hi %s", "junit");
+            expectAssertionError();
+        } catch (AssertionError error) {
+            msgShallStartsWith(error, "hi junit");
+        }
+    }
+
     @Test
     public void eqWithArrayLengthDiff() {
         int[] a1 = {1, 2, 3};
@@ -178,6 +260,14 @@ public class TestBaseTest extends TestBase {
         } catch (AssertionError error) {
             msgShallStartsWith(error, "hi junit: array lengths differed");
         }
+    }
+
+    @Test
+    public void neWithArrayLengthDiffShallPass() {
+        int[] a1 = {1, 2, 3};
+        int[] a2 = {1, 2};
+        ne(a1, a2);
+        ne(a1, a2, "hi %s", "junit");
     }
 
     @Test
@@ -205,6 +295,14 @@ public class TestBaseTest extends TestBase {
     }
 
     @Test
+    public void neWithArrayElementDiffShallPass() {
+        int[] a1 = {1, 2, 3};
+        int[] a2 = {1, 3, 2};
+        ne(a1, a2);
+        ne(a1, a2, "hi %s", "junit");
+    }
+
+    @Test
     public void eqWithArrayTypeDiff() {
         int[] a1 = {1};
         short[] a2 = {1};
@@ -226,6 +324,16 @@ public class TestBaseTest extends TestBase {
         } catch (AssertionError error) {
             msgShallStartsWith(error, "hi junit: arrays type differed");
         }
+    }
+
+    @Test
+    public void neWithArrayTypeDiffShallPass() {
+        int[] a1 = {1};
+        short[] a2 = {1};
+        ne(a1, a2);
+        ne(a1, a2, "");
+        ne(a1, a2, null);
+        ne(a1, a2, "hi %s", "junit");
     }
 
     @Test
@@ -279,17 +387,38 @@ public class TestBaseTest extends TestBase {
     }
 
     @Test
+    public void neWithEmptyArrayTypeDiffShallPass() {
+        int[] a1 = {};
+        String[] a2 = {};
+        ne(a1, a2);
+        ne(a1, a2, "hi %s", "junit");
+    }
+
+    @Test
     public void eqDoubleArraysWithDelta() {
         double[] a1 = {0.01d, 1.23037d};
         double[] a2 = {0.010001d, 1.23036d};
         eq(a1, a2, 0.0002d);
+        eq(a1, a2, 0.0002d, "hi %s", "junit");
+    }
+
+    @Test(expected = AssertionError.class)
+    public void neDoubleArraysWithDelta() {
+        double[] a1 = {0.01d, 1.23037d};
+        double[] a2 = {0.010001d, 1.23036d};
+        ne(a1, a2, 0.0002d);
     }
 
     @Test
-    public void eqDoubleArraysWithDeltaWithMessage() {
+    public void neDoubleArraysWithDeltaWithMessage() {
         double[] a1 = {0.01d, 1.23037d};
         double[] a2 = {0.010001d, 1.23036d};
-        eq(a1, a2, 0.0002d, "hi %s", "junit");
+        try {
+            ne(a1, a2, 0.0002d, "hi %s", "junit");
+            expectAssertionError();
+        } catch (AssertionError error) {
+            msgShallStartsWith(error, "hi junit");
+        }
     }
 
     @Test(expected = AssertionError.class)
@@ -309,6 +438,56 @@ public class TestBaseTest extends TestBase {
         } catch (AssertionError error) {
             msgShallStartsWith(error, "hi junit: arrays first differed at element");
         }
+    }
+
+    @Test
+    public void neDoubleArraysWithDeltaNotMatch() {
+        double[] a1 = {0.01d, 1.23037d};
+        double[] a2 = {0.010001d, 1.23036d};
+        ne(a1, a2, 0.0000002d);
+        ne(a1, a2, 0.0000002d, "hi %s", "junit");
+    }
+
+    @Test
+    public void eqDoubleWithDelta() {
+        eq(0.01d, 0.010001d, 0.0002d);
+        eq(0.01d, 0.010001d, 0.0002d, "hi %s", "junit");
+    }
+
+    @Test(expected = AssertionError.class)
+    public void neDoubleWithDelta() {
+        ne(0.01d, 0.010001d, 0.0002d);
+    }
+
+    @Test
+    public void neDoubleWithDeltaWithMessage() {
+        try {
+            ne(0.01d, 0.010001d, 0.0002d, "hi %s", "junit");
+            expectAssertionError();
+        } catch (AssertionError error) {
+            msgShallStartsWith(error, "hi junit");
+        }
+    }
+
+    @Test(expected = AssertionError.class)
+    public void eqDoubleWithDeltaNotMatch() {
+        eq(0.01d, 0.010001d, 0.0000002d);
+    }
+
+    @Test
+    public void eqDoubleWithDeltaWithMessage() {
+        try {
+            eq(0.01d, 0.010001d, 0.0000002d, "hi %s", "junit");
+            expectAssertionError();
+        } catch (AssertionError error) {
+            msgShallStartsWith(error, "hi junit");
+        }
+    }
+
+    @Test
+    public void neDoubleWithDeltaNotMatch() {
+        ne(0.01d, 0.010001d, 0.0000002d);
+        ne(0.01d, 0.010001d, 0.0000002d, "hi %s", "junit");
     }
 
     @Test
@@ -478,7 +657,7 @@ public class TestBaseTest extends TestBase {
             yes(1, is(0), "hi %s", "junit");
             expectAssertionError();
         } catch (AssertionError error) {
-            msgShallStartsWith(error,"hi junit");
+            msgShallStartsWith(error, "hi junit");
         }
     }
 
@@ -505,7 +684,7 @@ public class TestBaseTest extends TestBase {
             no(1, is(1), "hi %s", "junit");
             expectAssertionError();
         } catch (AssertionError error) {
-            msgShallStartsWith(error,"hi junit");
+            msgShallStartsWith(error, "hi junit");
         }
     }
 
