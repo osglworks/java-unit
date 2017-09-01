@@ -4,12 +4,15 @@
 [![Maven Central](https://img.shields.io/maven-central/v/org.osgl/osgl-ut.svg)](http://search.maven.org/#search%7Cga%7C1%7Cosgl-ut)
 [![Build Status](https://travis-ci.org/osglworks/java-unit.svg?branch=master)](https://travis-ci.org/osglworks/java-unit)
 [![codecov](https://codecov.io/gh/osglworks/java-unit/branch/master/graph/badge.svg)](https://codecov.io/gh/osglworks/java-unit)
+[![Javadocs](http://www.javadoc.io/badge/org.osgl/osgl-ut.svg?color=red)](http://www.javadoc.io/doc/org.osgl/osgl-ut)
 
 该项目为 Java 单元测试提供以下支持:
 
 * 继承自 `org.junit.Assert` 的 `org.osgl.ut.TestBase` 类为用户测试类提供了简单便捷的断言方法
 
 * 项目依赖中引入了完全的 [hamcrest-2.0.0.0](http://hamcrest.org/) 库, 提供了和 Junit 内置 hamcrest 库相比更加丰富的 [matchers](http://hamcrest.org/JavaHamcrest/javadoc/2.0.0.0/org/hamcrest/Matcher.html) 类型
+
+* 项目依赖加入了 [mockito-2.9](http://site.mockito.org/) 库, 提供极好的 mocking 支持.
 
 ## 安装
 
