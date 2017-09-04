@@ -53,6 +53,7 @@
     <junit.version>4.12</junit.version>
     <hamcrest.version>2.0.0.0</hamcrest.version>
     <mockito.version>2.9.0</mockito.version>
+    <osgl-bootstrap.version>1.0.0-BETA-1</osgl-bootstrap.version>
   </properties>
 
   <licenses>
@@ -178,6 +179,12 @@
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
       <version>${mockito.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.osgl</groupId>
+      <artifactId>osgl-bootstrap</artifactId>
+      <version>${osgl-bootstrap.version}</version>
     </dependency>
 
   </dependencies>

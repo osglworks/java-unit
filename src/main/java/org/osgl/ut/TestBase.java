@@ -27,6 +27,7 @@ import org.junit.Assert;
 import org.junit.internal.ArrayComparisonFailure;
 import org.junit.internal.ExactComparisonCriteria;
 import org.junit.internal.InexactComparisonCriteria;
+import org.osgl.bootstrap.Version;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -35,6 +36,8 @@ import java.util.Arrays;
  * The `TestBase` provides simplified assertion methods.
  */
 public abstract class TestBase extends Assert {
+
+    public static final Version VERSION = Version.of(TestBase.class);
 
     /**
      * Asserts that a condition is `true`. If it isn't then throws an
@@ -227,7 +230,7 @@ public abstract class TestBase extends Assert {
      */
     public static void eq(Object expected, Object actual, String message, Object ... messageArgs) {
         if (null == expected) {
-            beNull(actual, message, messageArgs);
+            isNull(actual, message, messageArgs);
             return;
         }
         Class<?> expectedClass = expected.getClass();
@@ -294,7 +297,7 @@ public abstract class TestBase extends Assert {
      */
     public static void eq(Object expected, Object actual) {
         if (null == expected) {
-            beNull(actual);
+            isNull(actual);
             return;
         }
         Class<?> expectedClass = expected.getClass();
@@ -610,15 +613,163 @@ public abstract class TestBase extends Assert {
      * @param messageArgs
      *              Failure message arguments
      */
-    public static void beNull(Object object, String message, Object... messageArgs) {
+    public static void isNull(Object object, String message, Object... messageArgs) {
         assertTrue(fmt(message, messageArgs), object == null);
     }
 
     /**
      * Alias of {@link #assertNull(Object)}.
      */
-    public static void beNull(Object object) {
+    public static void isNull(Object object) {
         assertNull(null, object);
+    }
+
+    /**
+     * Asserts that a string isn't empty. If it is an {@link AssertionError} is
+     * thrown with the given message.
+     *
+     * A string is said to be empty when either one of the following cases is true:
+     *
+     * * it is `null`
+     * * it is an empty string `""`
+     *
+     * @param str
+     *            a string to be checked
+     * @param message
+     *            the identifying message for the {@link AssertionError} (`null` okay)
+     * @param messageArgs
+     *            the message arguments
+     */
+    public static void notEmpty(String str, String message, Object... messageArgs) {
+        yes(null != str && !"".equals(str), message, messageArgs);
+    }
+
+    /**
+     * Asserts that a string isn't empty. If it is an {@link AssertionError} is
+     * thrown.
+     *
+     * A string is said to be empty when either one of the following cases is true:
+     *
+     * * it is `null`
+     * * it is an empty string `""`
+     *
+     * @param str
+     *            a string to be checked
+     */
+    public static void notEmpty(String str) {
+        assertTrue(null != str && !"".equals(str));
+    }
+
+    /**
+     * Asserts that a string is empty. If it isn't an {@link AssertionError} is
+     * thrown with the given message.
+     *
+     * A string is said to be empty when either one of the following cases is true:
+     *
+     * * it is `null`
+     * * it is an empty string `""`
+     *
+     * @param str
+     *            a string to be checked
+     * @param message
+     *            the identifying message for the {@link AssertionError} (`null` okay)
+     * @param messageArgs
+     *            the message arguments
+     */
+    public static void isEmpty(String str, String message, Object... messageArgs) {
+        yes(null == str || "".equals(str), message, messageArgs);
+    }
+
+    /**
+     * Asserts that a string isn empty. If it isn't an {@link AssertionError} is
+     * thrown.
+     *
+     * A string is said to be empty when either one of the following cases is true:
+     *
+     * * it is `null`
+     * * it is an empty string `""`
+     *
+     * @param str
+     *            a string to be checked
+     */
+    public static void isEmpty(String str) {
+        assertTrue(null == str || "".equals(str));
+    }
+
+    /**
+     * Asserts that a string isn't blank. If it is an {@link AssertionError} is
+     * thrown with the given message.
+     *
+     * A string is said to be blank when either one of the following cases is true:
+     *
+     * * it is `null`
+     * * it is an empty string `""`
+     * * it is a string with only space characters including tab `'\t'` and backspace `'\b'`
+     *
+     * @param str
+     *            a string to be checked
+     * @param message
+     *            the identifying message for the {@link AssertionError} (`null` okay)
+     * @param messageArgs
+     *            the message arguments
+     */
+    public static void notBlank(String str, String message, Object... messageArgs) {
+        yes(null != str && !"".equals(str.trim()), message, messageArgs);
+    }
+
+    /**
+     * Asserts that a string isn't blank. If it is an {@link AssertionError} is
+     * thrown.
+     *
+     * A string is said to be blank when either one of the following cases is true:
+     *
+     * * it is `null`
+     * * it is an empty string `""`
+     * * it is a string with only space characters including tab `'\t'` and backspace `'\b'`
+     *
+     * @param str
+     *            a string to be checked
+     */
+    public static void notBlank(String str) {
+        assertTrue(null != str && !"".equals(str.trim()));
+    }
+
+    /**
+     * Asserts that a string is blank. If it isn't an {@link AssertionError} is
+     * thrown with the given message.
+     *
+     * A string is said to be blank when either one of the following cases is true:
+     *
+     * * it is `null`
+     * * it is an empty string `""`
+     * * it is a string with only space characters including tab `'\t'` and backspace `'\b'`
+     *
+     * @param str
+     *            a string to be checked
+     * @param message
+     *            the identifying message for the {@link AssertionError} (`null` okay)
+     * @param messageArgs
+     *            the message arguments
+     */
+    public static void isBlank(String str, String message, Object... messageArgs) {
+        yes(null == str || "".equals(str.trim()), message, messageArgs);
+    }
+
+    /**
+     * Asserts that a string is blank. If it isn't an {@link AssertionError} is
+     * thrown.
+     *
+     * A string is said to be blank when either one of the following cases is true:
+     *
+     * * it is `null`
+     * * it is an empty string `""`
+     * * it is a string with only space characters including tab `'\t'` and backspace `'\b'`
+     *
+     * @param str
+     *            a string to be checked
+     */
+    public static void isBlank(String str) {
+        assertTrue(null == str || "".equals(str.trim()));
     }
 
     /**

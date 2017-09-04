@@ -21,24 +21,21 @@ package org.osgl.ut;
  */
 
 import org.junit.Test;
+import org.osgl.bootstrap.Version;
 
 public class VersionTest extends TestBase {
 
+    private Version version = TestBase.VERSION;
+
     @Test
     public void itShallLoadVersionFromVersionFile() {
-        notNull(Version.version());
-        ne(Version.UNKNOWN, Version.version());
+        notNull(version);
+        ne(Version.UNKNOWN, version);
     }
 
     @Test
     public void itShallLoadBuildNumberFromVersionFile() {
-        notNull(Version.buildNumber());
-        ne(Version.UNKNOWN, Version.buildNumber());
-    }
-
-    @Test
-    public void versionTagTest() {
-        eq(Version.version() + "-" + Version.buildNumber(), Version.versionTag());
+        notBlank(version.getBuildNumber());
     }
 
 }

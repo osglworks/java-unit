@@ -543,23 +543,189 @@ public class TestBaseTest extends TestBase {
 
     @Test
     public void isNullShallPassIfObjectIsNull() {
-        beNull(null);
+        isNull(null);
     }
 
     @Test
     public void isNullShallPassIfObjectIsNullWithMessage() {
-        beNull(null, "hi %s", "junit");
+        isNull(null, "hi %s", "junit");
     }
 
     @Test(expected = AssertionError.class)
     public void isNullShallShoutIfObjectIsNotNull() {
-        beNull(new Object());
+        isNull(new Object());
     }
 
     @Test
     public void isNullShallShoutIfObjectIsNotNullWtihMessage() {
         try {
-            beNull(new Object(), "hi %s", "junit");
+            isNull(new Object(), "hi %s", "junit");
+            expectAssertionError();
+        } catch (AssertionError error) {
+            assertEquals("hi junit", error.getMessage());
+        }
+    }
+
+    @Test
+    public void notEmptyShallPassIfStrIsNotEmpty() {
+        notEmpty(" ");
+        notEmpty("abcde");
+    }
+
+    @Test(expected = AssertionError.class)
+    public void notEmptyShallShoutIfStrIsNull() {
+        notEmpty(null);
+    }
+
+    @Test
+    public void notEmptyShallShoutIfStrIsNullWithMessage() {
+        try {
+            notEmpty(null, "hi %s", "junit");
+            expectAssertionError();
+        } catch (AssertionError error) {
+            assertEquals("hi junit", error.getMessage());
+        }
+    }
+
+    @Test(expected = AssertionError.class)
+    public void notEmptyShallShoutIfStrIsEmpty() {
+        notEmpty("");
+    }
+
+    @Test
+    public void notEmptyShallShoutIfStrIsEmptyWithMessage() {
+        try {
+            notEmpty("", "hi %s", "junit");
+            expectAssertionError();
+        } catch (AssertionError error) {
+            assertEquals("hi junit", error.getMessage());
+        }
+    }
+
+    @Test
+    public void isEmptyShallPassIfStrIsNullOrEmpty() {
+        isEmpty(null);
+        isEmpty("");
+    }
+
+    @Test
+    public void isEmptyShallPassIfStrIsNullOrEmptyWithMessage() {
+        isEmpty(null, "hi %s", "junit");
+        isEmpty("", "hi %s", "junit");
+    }
+
+    @Test(expected = AssertionError.class)
+    public void isEmptyShallShoutIfStrIsNotEmpty() {
+        isEmpty("ab");
+    }
+
+    @Test
+    public void isEmptyShallShoutIfStrIsNotEmptyWithMessage() {
+        try {
+            isEmpty("ab", "hi %s", "junit");
+            expectAssertionError();
+        } catch (AssertionError error) {
+            assertEquals("hi junit", error.getMessage());
+        }
+    }
+
+    @Test(expected = AssertionError.class)
+    public void isEmptyShallShoutIfStrIsBlank() {
+        isEmpty(" ");
+    }
+
+    @Test
+    public void isEmptyShallShoutIfStrIsBlankWithMessage() {
+        try {
+            isEmpty("\t", "hi %s", "junit");
+            expectAssertionError();
+        } catch (AssertionError error) {
+            assertEquals("hi junit", error.getMessage());
+        }
+    }
+
+    // ----
+
+    @Test
+    public void notBlankShallPassIfStrIsNotBlank() {
+        notBlank("abcde");
+        notBlank(" x");
+    }
+
+    @Test(expected = AssertionError.class)
+    public void notBlankShallShoutIfStrIsNull() {
+        notBlank(null);
+    }
+
+    @Test
+    public void notBlankShallShoutIfStrIsNullWithMessage() {
+        try {
+            notBlank(null, "hi %s", "junit");
+            expectAssertionError();
+        } catch (AssertionError error) {
+            assertEquals("hi junit", error.getMessage());
+        }
+    }
+
+    @Test(expected = AssertionError.class)
+    public void notBlankShallShoutIfStrIsEmpty() {
+        notBlank("");
+    }
+
+    @Test
+    public void notBlankShallShoutIfStrIsEmptyWithMessage() {
+        try {
+            notBlank("", "hi %s", "junit");
+            expectAssertionError();
+        } catch (AssertionError error) {
+            assertEquals("hi junit", error.getMessage());
+        }
+    }
+
+    @Test(expected = AssertionError.class)
+    public void notBlankShallShoutIfStrIsBlank() {
+        notBlank(" \t \b");
+    }
+
+    @Test
+    public void notBlankShallShoutIfStrIsBlankWithMessage() {
+        try {
+            notBlank(" ", "hi %s", "junit");
+            expectAssertionError();
+        } catch (AssertionError error) {
+            assertEquals("hi junit", error.getMessage());
+        }
+    }
+
+    @Test
+    public void isBlankShallPassIfStrIsNullOrEmptyOrBlank() {
+        isBlank(null);
+        isBlank("");
+        isBlank(" ");
+        isBlank("\t");
+        isBlank("\b");
+        isBlank("\u0000");
+    }
+
+    @Test
+    public void isBlankShallPassIfStrIsNullOrEmptyOrBlankWithMessage() {
+        isBlank(null, "hi %s", "junit");
+        isBlank("", "hi %s", "junit");
+        isBlank(" ", "hi %s", "junit");
+        isBlank("\t", "hi %s", "junit");
+        isBlank("\b", "hi %s", "junit");
+        isBlank("\u0000", "hi %s", "junit");
+    }
+
+    @Test(expected = AssertionError.class)
+    public void isBlankShallShoutIfStrIsNotBlank() {
+        isBlank("ab");
+    }
+
+    @Test
+    public void isBlankShallShoutIfStrIsNotBlankWithMessage() {
+        try {
+            isBlank("ab", "hi %s", "junit");
             expectAssertionError();
         } catch (AssertionError error) {
             assertEquals("hi junit", error.getMessage());

@@ -1,4 +1,9 @@
-# Changelog
+# OSGL UT CHANGELOG
+
+### 1.0.0-BETA-4 (TBD)
+* Introduce [osgl-bootstrap](https://github.com/osglworks/java-osgl-bootstrap)
+* Replace Version with osgl-bootstrap Version
+* Add `notEmpty(String)`, `isEmpty(String)`, `notBlank(String)`, `isBlank(String)` assertions
 
 ### 1.0.0-BETA-3 (2017-09-01)
 * add cobertura plugin and buildnumber plugin into maven build
