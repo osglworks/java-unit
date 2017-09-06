@@ -6,6 +6,9 @@
 * Add `notEmpty(String)`, `isEmpty(String)`, `notBlank(String)`, `isBlank(String)` assertions
 * Add `notEmpty(Collection)`, `isEmpty(Collection)`, `notEmpty(Map)`, `isEmpty(Map)`, `notEmpty(Array)`, `isEmpty(Array)` assertion methods
 * Improve unit test coverage
+* Update pegdown doclet version
+* Customized javadoc style
+* Deploy source package for snapshot version
 
 ### 1.0.0-BETA-3 (2017-09-01)
 * add cobertura plugin and buildnumber plugin into maven build
