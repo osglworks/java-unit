@@ -30,12 +30,12 @@ public class VersionTest extends TestBase {
     @Test
     public void itShallLoadVersionFromVersionFile() {
         notNull(version);
-        ne(Version.UNKNOWN, version);
+        no(version.isUnknown());
     }
 
     @Test
-    public void itShallLoadBuildNumberFromVersionFile() {
-        notBlank(version.getBuildNumber());
+    public void artifactIdShallBeOsglUt() {
+        eq("osgl-ut", version.getArtifactId());
     }
 
 }

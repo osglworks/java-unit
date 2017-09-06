@@ -65,6 +65,14 @@ notNull(someting, "some message with %s and %s", arg1, arg2);
 | `assertThat(message, actual, matcher)` | `yes(actual, matcher, message, messageArgs)` |
 | N/A | `no(actual, matcher)` |
 | N/A | `no(actual, matcher, message, messageArgs)` |
+| N/A | `isEmpty(String)` |
+| N/A | `notEmpty(String)` |
+| N/A | `isEmpty(Collection)` |
+| N/A | `notEmpty(Collection)` |
+| N/A | `isEmpty(Map)` |
+| N/A | `notEmpty(Map)` |
+| N/A | `isEmpty(Array)` |
+| N/A | `notEmpty(Array)` |
 
 ## 代码示例
 

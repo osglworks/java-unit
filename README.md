@@ -67,6 +67,14 @@ List of `Assert` API and their `TestBase` counter part
 | `assertThat(message, actual, matcher)` | `yes(actual, matcher, message, messageArgs)` |
 | N/A | `no(actual, matcher)` |
 | N/A | `no(actual, matcher, message, messageArgs)` |
+| N/A | `isEmpty(String)` |
+| N/A | `notEmpty(String)` |
+| N/A | `isEmpty(Collection)` |
+| N/A | `notEmpty(Collection)` |
+| N/A | `isEmpty(Map)` |
+| N/A | `notEmpty(Map)` |
+| N/A | `isEmpty(Array)` |
+| N/A | `notEmpty(Array)` |
 
 ## Sample code
 

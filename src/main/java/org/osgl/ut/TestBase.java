@@ -31,6 +31,8 @@ import org.osgl.bootstrap.Version;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * The `TestBase` provides simplified assertion methods.
@@ -661,6 +663,96 @@ public abstract class TestBase extends Assert {
     }
 
     /**
+     * Asserts that a collection isn't empty. If it is an {@link AssertionError} is
+     * thrown with the given message.
+     *
+     * @param col
+     *            a collection to be checked
+     * @param message
+     *            the identifying message for the {@link AssertionError} (`null` okay)
+     * @param messageArgs
+     *            the message arguments
+     * @throws NullPointerException
+     *            if the collection specified is `null`
+     */
+    public static void notEmpty(Collection<?> col, String message, Object ... messageArgs) {
+        no(col.isEmpty(), message, messageArgs);
+    }
+
+    /**
+     * Asserts that a collection isn't empty. If it is an {@link AssertionError} is
+     * thrown.
+     *
+     * @param col
+     *            a collection to be checked
+     * @throws NullPointerException
+     *            if the collection specified is `null`
+     */
+    public static void notEmpty(Collection<?> col) {
+        assertFalse(col.isEmpty());
+    }
+
+    /**
+     * Asserts that a map isn't empty. If it is an {@link AssertionError} is
+     * thrown with the given message.
+     *
+     * @param map
+     *            a map to be checked
+     * @param message
+     *            the identifying message for the {@link AssertionError} (`null` okay)
+     * @param messageArgs
+     *            the message arguments
+     * @throws NullPointerException
+     *            if the collection specified is `null`
+     */
+    public static void notEmpty(Map<?, ?> map, String message, Object ... messageArgs) {
+        no(map.isEmpty(), message, messageArgs);
+    }
+
+    /**
+     * Asserts that a map isn't empty. If it is an {@link AssertionError} is
+     * thrown.
+     *
+     * @param map
+     *            a map to be checked
+     * @throws NullPointerException
+     *            if the collection specified is `null`
+     */
+    public static void notEmpty(Map<?, ?> map) {
+        assertFalse(map.isEmpty());
+    }
+
+    /**
+     * Asserts that an array isn't empty. If it is an {@link AssertionError} is
+     * thrown with the given message.
+     *
+     * @param array
+     *            an array to be checked
+     * @param message
+     *            the identifying message for the {@link AssertionError} (`null` okay)
+     * @param messageArgs
+     *            the message arguments
+     * @throws NullPointerException
+     *            if the array specified is `null`
+     */
+    public static <T> void notEmpty(T[] array, String message, Object... messageArgs) {
+        yes(array.length > 0, message, messageArgs);
+    }
+
+    /**
+     * Asserts that an array isn't empty. If it is an {@link AssertionError} is
+     * thrown.
+     *
+     * @param array
+     *            an array to be checked
+     * @throws NullPointerException
+     *            if the array specified is `null`
+     */
+    public static <T> void notEmpty(T[] array) {
+        assertTrue(array.length > 0);
+    }
+
+    /**
      * Asserts that a string is empty. If it isn't an {@link AssertionError} is
      * thrown with the given message.
      *
@@ -681,7 +773,7 @@ public abstract class TestBase extends Assert {
     }
 
     /**
-     * Asserts that a string isn empty. If it isn't an {@link AssertionError} is
+     * Asserts that a string is empty. If it isn't an {@link AssertionError} is
      * thrown.
      *
      * A string is said to be empty when either one of the following cases is true:
@@ -694,6 +786,96 @@ public abstract class TestBase extends Assert {
      */
     public static void isEmpty(String str) {
         assertTrue(null == str || "".equals(str));
+    }
+
+    /**
+     * Asserts that a collection is empty. If it is not an {@link AssertionError} is
+     * thrown with the given message.
+     *
+     * @param col
+     *            a collection to be checked
+     * @param message
+     *            the identifying message for the {@link AssertionError} (`null` okay)
+     * @param messageArgs
+     *            the message arguments
+     * @throws NullPointerException
+     *            if the collection specified is `null`
+     */
+    public static void isEmpty(Collection<?> col, String message, Object... messageArgs) {
+        yes(col.isEmpty(), message, messageArgs);
+    }
+
+    /**
+     * Asserts that a collection is empty. If it is not an {@link AssertionError} is
+     * thrown.
+     *
+     * @param col
+     *            a collection to be checked
+     * @throws NullPointerException
+     *            if the collection specified is `null`
+     */
+    public static void isEmpty(Collection<?> col) {
+        yes(col.isEmpty());
+    }
+
+    /**
+     * Asserts that a map is empty. If it is not an {@link AssertionError} is
+     * thrown with the given message.
+     *
+     * @param map
+     *            a map to be checked
+     * @param message
+     *            the identifying message for the {@link AssertionError} (`null` okay)
+     * @param messageArgs
+     *            the message arguments
+     * @throws NullPointerException
+     *            if the collection specified is `null`
+     */
+    public static void isEmpty(Map<?, ?> map, String message, Object... messageArgs) {
+        yes(map.isEmpty(), message, messageArgs);
+    }
+
+    /**
+     * Asserts that a Map is empty. If it is not an {@link AssertionError} is
+     * thrown.
+     *
+     * @param map
+     *            a collection to be checked
+     * @throws NullPointerException
+     *            if the collection specified is `null`
+     */
+    public static void isEmpty(Map<?, ?> map) {
+        yes(map.isEmpty());
+    }
+
+    /**
+     * Asserts that an array is empty. If it is not an {@link AssertionError} is
+     * thrown with the given message.
+     *
+     * @param array
+     *            an array to be checked
+     * @param message
+     *            the identifying message for the {@link AssertionError} (`null` okay)
+     * @param messageArgs
+     *            the message arguments
+     * @throws NullPointerException
+     *            if the array specified is `null`
+     */
+    public static <T> void isEmpty(T[] array, String message, Object... messageArgs) {
+        yes(array.length == 0, message, messageArgs);
+    }
+
+    /**
+     * Asserts that an array is empty. If it is not an {@link AssertionError} is
+     * thrown.
+     *
+     * @param array
+     *            an array to be checked
+     * @throws NullPointerException
+     *            if the array specified is `null`
+     */
+    public static <T> void isEmpty(T[] array) {
+        assertTrue(array.length == 0);
     }
 
     /**

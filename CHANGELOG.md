@@ -1,9 +1,11 @@
 # OSGL UT CHANGELOG
 
-### 1.0.0-BETA-4 (TBD)
+### 1.0.0-BETA-4 (2017-09-07)
 * Introduce [osgl-bootstrap](https://github.com/osglworks/java-osgl-bootstrap)
 * Replace Version with osgl-bootstrap Version
 * Add `notEmpty(String)`, `isEmpty(String)`, `notBlank(String)`, `isBlank(String)` assertions
+* Add `notEmpty(Collection)`, `isEmpty(Collection)`, `notEmpty(Map)`, `isEmpty(Map)`, `notEmpty(Array)`, `isEmpty(Array)` assertion methods
+* Improve unit test coverage
 
 ### 1.0.0-BETA-3 (2017-09-01)
 * add cobertura plugin and buildnumber plugin into maven build

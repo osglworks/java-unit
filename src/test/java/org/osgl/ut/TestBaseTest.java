@@ -24,6 +24,8 @@ import static org.hamcrest.Matchers.*;
 
 import org.junit.Test;
 
+import java.util.*;
+
 /**
  * Test {@link TestBase}
  */
@@ -351,6 +353,44 @@ public class TestBaseTest extends TestBase {
         eqWithArrayTypeDiffWithInvalidMessage(null);
     }
 
+    @Test(expected = AssertionError.class)
+    public void eqArrayWithObjectShallShout() {
+        Object expected = new Object();
+        Object actual = new Object[0];
+        eq(expected, actual);
+    }
+
+    @Test
+    public void eqArrayWithObjectShallShoutWithMessage() {
+        Object expected = new Object();
+        Object actual = new Object[0];
+        try {
+            eq(expected, actual, "hi %s", "junit");
+            expectAssertionError();
+        } catch (AssertionError error) {
+            msgShallStartsWith(error, "hi junit expected:");
+        }
+    }
+
+    @Test(expected = AssertionError.class)
+    public void eqObjectWithArrayShallShout() {
+        Object expected = new Object[0];
+        Object actual = new Object();
+        eq(expected, actual);
+    }
+
+    @Test
+    public void eqObjectWithArrayShallShoutWithMessage() {
+        Object expected = new Object[0];
+        Object actual = new Object();
+        try {
+            eq(expected, actual, "hi %s", "junit");
+            expectAssertionError();
+        } catch (AssertionError error) {
+            msgShallStartsWith(error, "hi junit: arrays type differed");
+        }
+    }
+
     private void eqWithArrayTypeDiffWithInvalidMessage(String invalidMessage) {
         int[] a1 = {1};
         short[] a2 = {1};
@@ -516,6 +556,25 @@ public class TestBaseTest extends TestBase {
         }
     }
 
+    @Test(expected = AssertionError.class)
+    public void neFloatArraysWithDelta() {
+        double[] a1 = {0.1f, 1.23f};
+        double[] a2 = {0.101f, 1.24f};
+        ne(a1, a2, 0.1f);
+    }
+
+    @Test
+    public void neFloatArraysWithDeltaWithMessage() {
+        double[] a1 = {0.1f, 1.23f};
+        double[] a2 = {0.101f, 1.24f};
+        try {
+            ne(a1, a2, 0.1f, "hi %s", "junit");
+            expectAssertionError();
+        } catch (AssertionError error) {
+            msgShallStartsWith(error, "hi junit");
+        }
+    }
+
     @Test
     public void notNullShallPassIfObjectIsNotNull() {
         notNull(new Object());
@@ -574,13 +633,15 @@ public class TestBaseTest extends TestBase {
 
     @Test(expected = AssertionError.class)
     public void notEmptyShallShoutIfStrIsNull() {
-        notEmpty(null);
+        String s = null;
+        notEmpty(s);
     }
 
     @Test
     public void notEmptyShallShoutIfStrIsNullWithMessage() {
         try {
-            notEmpty(null, "hi %s", "junit");
+            String s = null;
+            notEmpty(s, "hi %s", "junit");
             expectAssertionError();
         } catch (AssertionError error) {
             assertEquals("hi junit", error.getMessage());
@@ -603,14 +664,124 @@ public class TestBaseTest extends TestBase {
     }
 
     @Test
+    public void notEmptyShallPassIfCollectionIsNotEmpty() {
+        Collection<String> col = new HashSet<String>();
+        col.add("xyz");
+        notEmpty(col);
+        notEmpty(col, "hi %s", "junit");
+    }
+
+    @Test(expected = AssertionError.class)
+    public void notEmptyShallShoutIfCollectionisEmpty() {
+        notEmpty(Collections.EMPTY_LIST);
+    }
+
+    @Test
+    public void notEmptyShallShoutIfCollectionIsEmptyWithMessage() {
+        try {
+            notEmpty(Collections.EMPTY_SET, "hi %s", "junit");
+            expectAssertionError();
+        } catch (AssertionError error) {
+            assertEquals("hi junit", error.getMessage());
+        }
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void notEmptyShallFailIfCollectionIsNull() {
+        Collection<?> col = null;
+        notEmpty(col);
+    }
+
+    @Test
+    public void notEmptyShallPassIfArrayIsNotEmpty() {
+        String[] sa = {"hi"};
+        notEmpty(sa);
+        notEmpty(sa, "hi %s", "junit");
+    }
+
+    @Test(expected = AssertionError.class)
+    public void notEmptyShallShoutIfArrayIsEmpty() {
+        Integer[] ia = new Integer[]{};
+        notEmpty(ia);
+    }
+
+    @Test
+    public void notEmptyShallShoutIfArrayIsEmptyWithMessage() {
+        try {
+            Integer[] ia = new Integer[]{};
+            notEmpty(ia, "hi %s", "junit");
+            expectAssertionError();
+        } catch (AssertionError error) {
+            assertEquals("hi junit", error.getMessage());
+        }
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void notEmptyShallFailIfArrayIsNull() {
+        Boolean[] ba = null;
+        notEmpty(ba);
+    }
+
+    @Test
+    public void eqFloatWithDelta() {
+        eq(0.1f, 0.102f, 0.01f);
+        eq(0.1f, 0.102f, 0.01f, "hi %s", "junit");
+    }
+
+    @Test(expected = AssertionError.class)
+    public void neFloatWithDelta() {
+        ne(0.1f, 0.102f, 0.01f);
+    }
+
+    @Test
+    public void neFloatWithDeltaWithMessage() {
+        try {
+            ne(0.1f, 0.102f, 0.01f, "hi %s", "junit");
+            expectAssertionError();
+        } catch (AssertionError error) {
+            msgShallStartsWith(error, "hi junit");
+        }
+    }
+
+    @Test(expected = AssertionError.class)
+    public void eqFloatWithDeltaNotMatch() {
+        eq(0.01f, 0.0102f, 0.0001f);
+    }
+
+    @Test
+    public void eqFloatWithDeltaWithMessage() {
+        try {
+            eq(0.01f, 0.0102f, 0.0001f, "hi %s", "junit");
+            expectAssertionError();
+        } catch (AssertionError error) {
+            msgShallStartsWith(error, "hi junit");
+        }
+    }
+
+    @Test
+    public void neFloatWithDeltaNotMatch() {
+        ne(0.01f, 0.0102f, 0.0001f);
+        ne(0.01f, 0.0102f, 0.0001f, "hi %s", "junit");
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void notEmptyShallFailIfCollectionIsNullWithMessage() {
+        Collection<?> col = null;
+        notEmpty(col, "hi %s", "junit");
+    }
+
+
+    @Test
     public void isEmptyShallPassIfStrIsNullOrEmpty() {
-        isEmpty(null);
+        String s = null;
+        isEmpty(s);
         isEmpty("");
     }
 
     @Test
     public void isEmptyShallPassIfStrIsNullOrEmptyWithMessage() {
-        isEmpty(null, "hi %s", "junit");
+        String s = null;
+        isEmpty(s, "hi %s", "junit");
         isEmpty("", "hi %s", "junit");
     }
 
@@ -629,6 +800,68 @@ public class TestBaseTest extends TestBase {
         }
     }
 
+    @Test
+    public void isEmptyShallPassIfCollectionIsEmpty() {
+        isEmpty(Collections.EMPTY_SET);
+        isEmpty(Collections.EMPTY_LIST);
+        isEmpty(Collections.EMPTY_MAP);
+        isEmpty(new HashSet<Integer>());
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void isEmptyShallErrorIfCollectionIsNull() {
+        List<?> list = null;
+        isEmpty(list);
+    }
+
+    @Test(expected = AssertionError.class)
+    public void isEmptyShallShoutIfCollectionIsNotEmpty() {
+        List<String> list = new ArrayList<String>();
+        list.add("hi");
+        isEmpty(list);
+    }
+
+    @Test
+    public void isEmptyShallShoutIfCollectionIsNotEmptyWithMessage() {
+        List<String> list = new ArrayList<String>();
+        list.add("hi");
+        try {
+            isEmpty(list, "hi %s", "junit");
+            expectAssertionError();
+        } catch (AssertionError error) {
+            assertEquals("hi junit", error.getMessage());
+        }
+    }
+
+
+    @Test
+    public void isEmptyShallPassIfArrayIsEmpty() {
+        isEmpty(new String[0]);
+        isEmpty(new TestBase[]{});
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void isEmptyShallErrorIfArrayIsNull() {
+        Integer[] ia = null;
+        isEmpty(ia);
+    }
+
+    @Test(expected = AssertionError.class)
+    public void isEmptyShallShoutIfArrayIsNotEmpty() {
+        isEmpty(new Integer[]{1});
+    }
+
+    @Test
+    public void isEmptyShallShoutIfArrayIsNotEmptyWithMessage() {
+        try {
+            isEmpty(new Object[]{null}, "hi %s", "junit");
+            expectAssertionError();
+        } catch (AssertionError error) {
+            assertEquals("hi junit", error.getMessage());
+        }
+    }
+
+
     @Test(expected = AssertionError.class)
     public void isEmptyShallShoutIfStrIsBlank() {
         isEmpty(" ");
@@ -643,8 +876,6 @@ public class TestBaseTest extends TestBase {
             assertEquals("hi junit", error.getMessage());
         }
     }
-
-    // ----
 
     @Test
     public void notBlankShallPassIfStrIsNotBlank() {
