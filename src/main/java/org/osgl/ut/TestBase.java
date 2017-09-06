@@ -254,6 +254,154 @@ public abstract class TestBase extends Assert {
         }
     }
 
+
+    /**
+     * Asserts that two objects (including arrays) are equal.
+     * If they are not, an {@link AssertionError} is thrown with
+     * the given message. If`expected` and `actual` are `null`,
+     * they are considered equal.
+     *
+     * @param expected
+     *              expected value, could be any object including array
+     * @param actual
+     *              actual value
+     */
+    public static void eq(Object expected, Object actual) {
+        if (null == expected) {
+            isNull(actual);
+            return;
+        }
+        Class<?> expectedClass = expected.getClass();
+        if (expectedClass.isArray()) {
+            Class<?> actualClass = actual.getClass();
+            if (!expectedClass.equals(actualClass)) {
+                fail("arrays type differed\nExpected: %s\nActual  : %s", expectedClass.getName(), actualClass.getName());
+            }
+            new ExactComparisonCriteria().arrayEquals(null, expected, actual);
+        } else {
+            assertEquals(null, expected, actual);
+        }
+    }
+
+    /**
+     * Asserts that two double arrays are equal. If they are not, an
+     * {@link AssertionError} is thrown with the given message.
+     *
+     * @param expecteds
+     *              double array with expected values.
+     * @param actuals
+     *              double array with actual values
+     * @param delta
+     *              the maximum delta between `expected` and `actual`
+     *              for which both numbers are still considered equal.
+     * @param message
+     *              the identifying message for the {@link AssertionError} (`null` okay)
+     * @param messageArgs
+     *              the failure message arguments
+     */
+    public static void eq(double[] expecteds, double[] actuals, double delta,
+                          String message, Object ... messageArgs) throws ArrayComparisonFailure {
+        new InexactComparisonCriteria(delta).arrayEquals(fmt(message, messageArgs), expecteds, actuals);
+    }
+
+    /**
+     * Alias of {@link #assertArrayEquals(double[], double[], double)}.
+     *
+     * @param expecteds
+     *              double array with expected values.
+     * @param actuals
+     *              double array with actual values
+     * @param delta
+     *              the maximum delta between `expected` and `actual`
+     *              for which both numbers are still considered equal.
+     */
+    public static void eq(double[] expecteds, double[] actuals, double delta) throws ArrayComparisonFailure {
+        assertArrayEquals(expecteds, actuals, delta);
+    }
+
+    /**
+     * Asserts that two float arrays are equal. If they are not, an
+     * {@link AssertionError} is thrown with the given message.
+     *
+     * @param expecteds
+     *              double array with expected values.
+     * @param actuals
+     *              double array with actual values
+     * @param delta
+     *              the maximum delta between `expected` and `actual`
+     *              for which both numbers are still considered equal.
+     * @param message
+     *              the identifying message for the {@link AssertionError} (`null` okay)
+     * @param messageArgs
+     *              the failure message arguments
+     */
+    public static void eq(float[] expecteds, float[] actuals, float delta,
+                          String message, Object ... messageArgs) throws ArrayComparisonFailure {
+        new InexactComparisonCriteria(delta).arrayEquals(fmt(message, messageArgs), expecteds, actuals);
+    }
+
+    /**
+     * Asserts that two float arrays are equal. If they are not, an
+     * {@link AssertionError} is thrown with the given message.
+     *
+     * @param expecteds
+     *              double array with expected values.
+     * @param actuals
+     *              double array with actual values
+     * @param delta
+     *              the maximum delta between `expected` and `actual`
+     *              for which both numbers are still considered equal.
+     */
+    public static void eq(float[] expecteds, float[] actuals, float delta) throws ArrayComparisonFailure {
+        assertArrayEquals(expecteds, actuals, delta);
+    }
+
+    /**
+     * Asserts that two doubles or floats are equal to within a positive delta.
+     * If they are not, an {@link AssertionError} is thrown with the given
+     * message. If the expected value is infinity then the delta value is
+     * ignored. NaNs are considered equal:
+     *
+     * `eq(Double.NaN, Double.NaN, *)` passes
+     *
+     * @param expected
+     *              expected value
+     * @param actual
+     *              the value to check against `expected`
+     * @param delta
+     *              the maximum delta between `expected` and
+     *              `actual` for which both numbers are still
+     *              considered equal.
+     * @param message
+     *              the failure message for the {@link AssertionError} (`null` okay)
+     * @param messageArgs
+     *              the failure message arguments
+     */
+    public static void eq(double expected, double actual, double delta, String message, Object... messageArgs) {
+        assertEquals(fmt(message, messageArgs), expected, actual, delta);
+    }
+
+    /**
+     * Asserts that two doubles or floats are equal to within a positive delta.
+     * If they are not, an {@link AssertionError} is thrown with the given
+     * message. If the expected value is infinity then the delta value is
+     * ignored. NaNs are considered equal:
+     *
+     * `eq(Double.NaN, Double.NaN, *)` passes
+     *
+     * @param expected
+     *              expected value
+     * @param actual
+     *              the value to check against `expected`
+     * @param delta
+     *              the maximum delta between `expected` and
+     *              `actual` for which both numbers are still
+     *              considered equal.
+     */
+    public static void eq(double expected, double actual, double delta) {
+        assertEquals(null, expected, actual, delta);
+    }
+
     /**
      * Asserts that two objects (including arrays) are not equal.
      * If they are, an {@link AssertionError} is thrown with the
@@ -287,34 +435,6 @@ public abstract class TestBase extends Assert {
     }
 
     /**
-     * Asserts that two objects (including arrays) are equal.
-     * If they are not, an {@link AssertionError} is thrown with
-     * the given message. If`expected` and `actual` are `null`,
-     * they are considered equal.
-     *
-     * @param expected
-     *              expected value, could be any object including array
-     * @param actual
-     *              actual value
-     */
-    public static void eq(Object expected, Object actual) {
-        if (null == expected) {
-            isNull(actual);
-            return;
-        }
-        Class<?> expectedClass = expected.getClass();
-        if (expectedClass.isArray()) {
-            Class<?> actualClass = actual.getClass();
-            if (!expectedClass.equals(actualClass)) {
-                fail("arrays type differed\nExpected: %s\nActual  : %s", expectedClass.getName(), actualClass.getName());
-            }
-            new ExactComparisonCriteria().arrayEquals(null, expected, actual);
-        } else {
-            assertEquals(null, expected, actual);
-        }
-    }
-
-    /**
      * Asserts that two objects (including arrays) are not equal.
      * If they are, an {@link AssertionError} is thrown with the
      * given message. If `unexpected` and `actual` are `null`,
@@ -342,27 +462,6 @@ public abstract class TestBase extends Assert {
     }
 
     /**
-     * Asserts that two double arrays are equal. If they are not, an
-     * {@link AssertionError} is thrown with the given message.
-     *
-     * @param expecteds
-     *              double array with expected values.
-     * @param actuals
-     *              double array with actual values
-     * @param delta
-     *              the maximum delta between `expected` and `actual`
-     *              for which both numbers are still considered equal.
-     * @param message
-     *              the identifying message for the {@link AssertionError} (`null` okay)
-     * @param messageArgs
-     *              the failure message arguments
-     */
-    public static void eq(double[] expecteds, double[] actuals, double delta,
-                          String message, Object ... messageArgs) throws ArrayComparisonFailure {
-        new InexactComparisonCriteria(delta).arrayEquals(fmt(message, messageArgs), expecteds, actuals);
-    }
-
-    /**
      * Asserts that two double arrays are not equal. If they are, an
      * {@link AssertionError} is thrown with the given message.
      *
@@ -384,21 +483,6 @@ public abstract class TestBase extends Assert {
     }
 
     /**
-     * Alias of {@link #assertArrayEquals(double[], double[], double)}.
-     *
-     * @param expecteds
-     *              double array with expected values.
-     * @param actuals
-     *              double array with actual values
-     * @param delta
-     *              the maximum delta between `expected` and `actual`
-     *              for which both numbers are still considered equal.
-     */
-    public static void eq(double[] expecteds, double[] actuals, double delta) throws ArrayComparisonFailure {
-        assertArrayEquals(expecteds, actuals, delta);
-    }
-
-    /**
      * Asserts that two double arrays are not equal. If they are, an
      * {@link AssertionError} is thrown.
      *
@@ -412,27 +496,6 @@ public abstract class TestBase extends Assert {
      */
     public static void ne(double[] unexpecteds, double[] actuals, double delta) throws AssertionError {
         arrayNotEquals(null, unexpecteds, actuals, delta);
-    }
-
-    /**
-     * Asserts that two float arrays are equal. If they are not, an
-     * {@link AssertionError} is thrown with the given message.
-     *
-     * @param expecteds
-     *              double array with expected values.
-     * @param actuals
-     *              double array with actual values
-     * @param delta
-     *              the maximum delta between `expected` and `actual`
-     *              for which both numbers are still considered equal.
-     * @param message
-     *              the identifying message for the {@link AssertionError} (`null` okay)
-     * @param messageArgs
-     *              the failure message arguments
-     */
-    public static void eq(float[] expecteds, float[] actuals, float delta,
-                          String message, Object ... messageArgs) throws ArrayComparisonFailure {
-        new InexactComparisonCriteria(delta).arrayEquals(fmt(message, messageArgs), expecteds, actuals);
     }
 
     /**
@@ -457,22 +520,6 @@ public abstract class TestBase extends Assert {
     }
 
     /**
-     * Asserts that two float arrays are equal. If they are not, an
-     * {@link AssertionError} is thrown with the given message.
-     *
-     * @param expecteds
-     *              double array with expected values.
-     * @param actuals
-     *              double array with actual values
-     * @param delta
-     *              the maximum delta between `expected` and `actual`
-     *              for which both numbers are still considered equal.
-     */
-    public static void eq(float[] expecteds, float[] actuals, float delta) throws ArrayComparisonFailure {
-        assertArrayEquals(expecteds, actuals, delta);
-    }
-
-    /**
      * Asserts that two float arrays are not equal. If they are, an
      * {@link AssertionError} is thrown.
      *
@@ -486,31 +533,6 @@ public abstract class TestBase extends Assert {
      */
     public static void ne(float[] unexpecteds, float[] actuals, float delta) throws AssertionError {
         arrayNotEquals(null, unexpecteds, actuals, delta);
-    }
-
-    /**
-     * Asserts that two doubles or floats are equal to within a positive delta.
-     * If they are not, an {@link AssertionError} is thrown with the given
-     * message. If the expected value is infinity then the delta value is
-     * ignored. NaNs are considered equal:
-     *
-     * `eq(Double.NaN, Double.NaN, *)` passes
-     *
-     * @param expected
-     *              expected value
-     * @param actual
-     *              the value to check against `expected`
-     * @param delta
-     *              the maximum delta between `expected` and
-     *              `actual` for which both numbers are still
-     *              considered equal.
-     * @param message
-     *              the failure message for the {@link AssertionError} (`null` okay)
-     * @param messageArgs
-     *              the failure message arguments
-     */
-    public static void eq(double expected, double actual, double delta, String message, Object... messageArgs) {
-        assertEquals(fmt(message, messageArgs), expected, actual, delta);
     }
 
     /**
@@ -536,27 +558,6 @@ public abstract class TestBase extends Assert {
      */
     public static void ne(double unexpected, double actual, double delta, String message, Object... messageArgs) {
         assertNotEquals(fmt(message, messageArgs), unexpected, actual, delta);
-    }
-
-    /**
-     * Asserts that two doubles or floats are equal to within a positive delta.
-     * If they are not, an {@link AssertionError} is thrown with the given
-     * message. If the expected value is infinity then the delta value is
-     * ignored. NaNs are considered equal:
-     *
-     * `eq(Double.NaN, Double.NaN, *)` passes
-     *
-     * @param expected
-     *              expected value
-     * @param actual
-     *              the value to check against `expected`
-     * @param delta
-     *              the maximum delta between `expected` and
-     *              `actual` for which both numbers are still
-     *              considered equal.
-     */
-    public static void eq(double expected, double actual, double delta) {
-        assertEquals(null, expected, actual, delta);
     }
 
     /**
