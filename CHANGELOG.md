@@ -1,5 +1,10 @@
 # OSGL UT CHANGELOG
 
+### 1.0.0-BETA-5 (2017-09-10)
+* Introduce [google error-prone](https://github.com/google/error-prone) into build process
+* update Javadoc style sheet
+* update mockito dependency to 2.10.0
+
 ### 1.0.0-BETA-4 (2017-09-07)
 * Introduce [osgl-bootstrap](https://github.com/osglworks/java-osgl-bootstrap)
 * Replace Version with osgl-bootstrap Version
