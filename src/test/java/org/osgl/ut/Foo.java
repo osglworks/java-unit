@@ -62,4 +62,11 @@ public class Foo {
                 ", n=" + n +
                 '}';
     }
+
+    public static class Bar {
+    }
+
+    public static void main(String[] args) {
+        System.out.println(Bar.class.getName());
+    }
 }
