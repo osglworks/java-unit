@@ -39,21 +39,18 @@
     <version>7</version>
   </parent>
 
-  <scm>
-    <connection>scm:git:git://github.com/osglworks/java-unit.git</connection>
-    <developerConnection>scm:git:git@github.com:osglworks/java-unit.git</developerConnection>
-    <url>git://github.com/osglworks/java-unit.git</url>
-  </scm>
-
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <scm.url>git@github.com:osglworks/java-unit.git</scm.url>
 
+    <maven-checkstyle-plugin.version>2.17</maven-checkstyle-plugin.version>
     <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
     <maven-javadoc-plugin.version>3.0.0-M1</maven-javadoc-plugin.version>
     <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
 
     <buildnumber-maven-plugin.version>1.4</buildnumber-maven-plugin.version>
+    <checkstyle.version>8.1</checkstyle.version>
     <cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
     <errorpone-core.version>2.1.1</errorpone-core.version>
     <markdown-doclet.version>1.4</markdown-doclet.version>
@@ -64,6 +61,12 @@
     <mockito.version>2.10.0</mockito.version>
     <osgl-bootstrap.version>1.0.0-BETA-6</osgl-bootstrap.version>
   </properties>
+
+  <scm>
+    <connection>scm:git:${scm.url}</connection>
+    <developerConnection>scm:git:${scm.url}</developerConnection>
+    <url>${scm.url}</url>
+  </scm>
 
   <licenses>
     <license>
@@ -122,12 +125,12 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.17</version>
+        <version>${maven-checkstyle-plugin.version}</version>
         <dependencies>
           <dependency>
             <groupId>com.puppycrawl.tools</groupId>
             <artifactId>checkstyle</artifactId>
-            <version>8.1</version>
+            <version>${checkstyle.version}</version>
           </dependency>
         </dependencies>
         <configuration>
