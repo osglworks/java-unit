@@ -1,5 +1,8 @@
 # OSGL UT CHANGELOG
 
+### 1.0.0-BETA-6 (2017-09-11)
+* Update osgl-bootstrap to 1.0.0-BETA-10
+
 ### 1.0.0-BETA-5 (2017-09-10)
 * Introduce [google error-prone](https://github.com/google/error-prone) into build process
 * update Javadoc style sheet
