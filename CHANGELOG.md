@@ -1,5 +1,8 @@
 # OSGL UT CHANGELOG
 
+### 1.0.0 (2017-09-17)
+* retag 1.0.0-BETA-6 to 1.0.0
+
 ### 1.0.0-BETA-6 (2017-09-11)
 * Update osgl-bootstrap to 1.0.0-BETA-10
 
