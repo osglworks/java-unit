@@ -59,7 +59,7 @@
     <junit.version>4.12</junit.version>
     <hamcrest.version>2.0.0.0</hamcrest.version>
     <mockito.version>2.10.0</mockito.version>
-    <osgl-bootstrap.version>1.0.0-BETA-10</osgl-bootstrap.version>
+    <osgl-bootstrap.version>1.0.0</osgl-bootstrap.version>
   </properties>
 
   <scm>
