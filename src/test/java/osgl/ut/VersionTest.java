@@ -1,4 +1,4 @@
-package org.osgl.ut;
+package osgl.ut;
 
 /*-
  * #%L
@@ -21,11 +21,11 @@ package org.osgl.ut;
  */
 
 import org.junit.Test;
-import org.osgl.bootstrap.Version;
+import osgl.version.Version;
 
 public class VersionTest extends TestBase {
 
-    private Version version = TestBase.VERSION;
+    private Version version = VERSION;
 
     @Test
     public void itShallLoadVersionFromVersionFile() {

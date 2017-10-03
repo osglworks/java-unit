@@ -1,4 +1,4 @@
-package org.osgl.ut;
+package osgl.ut;
 
 /*-
  * #%L

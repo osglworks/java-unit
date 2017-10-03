@@ -1,4 +1,4 @@
-package org.osgl.ut;
+package osgl.ut;
 
 /*-
  * #%L
@@ -27,7 +27,7 @@ import org.junit.Assert;
 import org.junit.internal.ArrayComparisonFailure;
 import org.junit.internal.ExactComparisonCriteria;
 import org.junit.internal.InexactComparisonCriteria;
-import org.osgl.bootstrap.Version;
+import osgl.version.Version;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;

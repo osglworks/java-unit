@@ -8,7 +8,7 @@
 
 The project provides supporting Java unit tests:
 
-* The `org.osgl.ut.TestBase` class is provided to be extended by user's test class. The class itself extends `org.junit.Assert` with simplified assertion methods.
+* The `TestBase` class is provided to be extended by user's test class. The class itself extends `org.junit.Assert` with simplified assertion methods.
 
 * The project has added the full [hamcrest-2.0.0.0](http://hamcrest.org/) library into the dependency, which provides more [matchers](http://hamcrest.org/JavaHamcrest/javadoc/2.0.0.0/org/hamcrest/Matcher.html) than the junit bundled hamcrest matchers.
 
@@ -28,7 +28,7 @@ Add the following dependency into your `pom.xml` file:
 
 ## `TestBase` vs `Assert`
 
-`org.junit.Assert` provides a lot of assertion method to support writting declarative unit tests. `org.osgl.ut.TestBase` inherited from `Assert` and provides simplified names for those assertion methods. More than that, `TestBase` has moved the `String message` parameter from the first position to the end of the parameter list for all APIs that has `message` parameter, and appended with `Object... messageArgs` parameter, to make developer easier to write formatted message, for example
+`org.junit.Assert` provides a lot of assertion method to support writting declarative unit tests. `TestBase` inherited from `Assert` and provides simplified names for those assertion methods. More than that, `TestBase` has moved the `String message` parameter from the first position to the end of the parameter list for all APIs that has `message` parameter, and appended with `Object... messageArgs` parameter, to make developer easier to write formatted message, for example
 
 ```java
 // Assert style
@@ -40,7 +40,7 @@ notNull(someting, "some message with %s and %s", arg1, arg2);
 
 List of `Assert` API and their `TestBase` counter part 
 
-| `org.junit.Assert` | `org.osgl.ut.TestBase` |
+| `org.junit.Assert` | `TestBase` |
 | ------------------ | ----------------------|
 | `assertTrue(condition)` | `yes(condition)` |
 | `assertTrue(message, condition)` | `yes(condition, message, messageArgs)`|
