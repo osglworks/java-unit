@@ -1,5 +1,12 @@
 # OSGL UT CHANGELOG
 
+## 2.0.0-BETA-2 (2018-08-11)
+* update osgl-version to 2.0.0-BETA-3
+
+## 2.0.0-BETA-1 (2017-10-03)
+* package name changed to `osgl.ut`
+* replace `osgl-bootstrap` with `osgl-version`
+
 ### 1.0.1 (2017-09-17)
 * Update osgl-bootstrap to 1.0.0
 
