@@ -1,5 +1,8 @@
 # OSGL UT CHANGELOG
 
+## 2.0.0-BETA-3 (2018-09-18)
+* update osgl-version to 2.0.0-BETA-4
+
 ## 2.0.0-BETA-2 (2018-08-11)
 * update osgl-version to 2.0.0-BETA-3
 
